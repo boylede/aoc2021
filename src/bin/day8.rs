@@ -1,4 +1,4 @@
-use std::collections::{HashSet, HashMap};
+use std::collections::{HashMap, HashSet};
 mod input;
 
 const TEST_INPUT: &str =
@@ -59,116 +59,127 @@ fn main() {
             .iter()
             .map(|(rules, output)| -> i32 {
                 // println!("output count: {}", output.len());
-                
-                let knowns = rules.iter().filter_map(|digit| {
-                    match digit.len() {
-                        2 => {
-                            // println!("{:?} = 1", digit);
-                            Some((digit, 1))
-                        },
-                        3 => {
-                            // println!("{:?} = 7", digit);
-                            Some((digit, 7))
-                        },
-                        4 => {
-                            // println!("{:?} = 4", digit);
-                            Some((digit, 4))
-                        },
-                        5 => {
-                            // println!("5 = 2, 3, or 5: {:?}", digit);
-                            None
+
+                let knowns = rules
+                    .iter()
+                    .filter_map(|digit| {
+                        match digit.len() {
+                            2 => {
+                                // println!("{:?} = 1", digit);
+                                Some((digit, 1))
+                            }
+                            3 => {
+                                // println!("{:?} = 7", digit);
+                                Some((digit, 7))
+                            }
+                            4 => {
+                                // println!("{:?} = 4", digit);
+                                Some((digit, 4))
+                            }
+                            5 => {
+                                // println!("5 = 2, 3, or 5: {:?}", digit);
+                                None
+                            }
+                            6 => {
+                                // println!("6 = 0, 6, or 9: {:?}", digit);
+                                None
+                            }
+                            7 => {
+                                // println!("{:?} = 8", digit);
+                                Some((digit, 8))
+                            }
+                            _ => {
+                                println!("unexpected {}", digit.len());
+                                panic!()
+                            }
                         }
-                        6 => {
-                            // println!("6 = 0, 6, or 9: {:?}", digit);
-                            None
-                        }
-                        7 => {
-                            // println!("{:?} = 8", digit);
-                            Some((digit, 8))
-                        },
-                        _ => {println!("unexpected {}", digit.len()); panic!()},
-                    }
-                }).map(|( k,v)|{
-                    let mut key = k.iter().cloned().collect::<Vec<_>>();
-                    key.sort();
-                    let key: String = key.iter().collect();
-                    (key, v)
-                }).collect::<HashMap<_,_>>();
+                    })
+                    .map(|(k, v)| {
+                        let mut key = k.iter().cloned().collect::<Vec<_>>();
+                        key.sort();
+                        let key: String = key.iter().collect();
+                        (key, v)
+                    })
+                    .collect::<HashMap<_, _>>();
                 // println!("figured out {} known digits", knowns.len());
-                if let Some((ones,_)) = knowns.iter().filter(|(k,v)|**v == 1).next() {
+                if let Some((ones, _)) = knowns.iter().filter(|(k, v)| **v == 1).next() {
                     // lenth 5 which have both of one's chars are 3
                     // length 6 which do are not 6, but 0 or 9
-                    if let Some((all_fours, _)) = knowns.iter().filter(|(k,v)|**v == 4).next() {
-                        
-                        let fours: String = all_fours.chars().filter(|c|!ones.contains(*c)).collect();
+                    if let Some((all_fours, _)) = knowns.iter().filter(|(k, v)| **v == 4).next() {
+                        let fours: String =
+                            all_fours.chars().filter(|c| !ones.contains(*c)).collect();
                         // fours contains two signals that are in 5 and 9
-                        output.iter().map(|digit| {
-                            // println!("wanting to find out what {:?} is", digit);
-                            match digit.len() {
-                                2 => {
-                                    // println!("{:?} = 1", digit);
-                                    1
-                                },
-                                3 => {
-                                    // println!("{:?} = 7", digit);
-                                    7
-                                },
-                                4 => {
-                                    // println!("{:?} = 4", digit);
-                                    4
-                                },
-                                5 => {
-                                    if ones.chars().all(|signal|digit.contains(&signal)) {
-                                        // println!("{:?} = 3", digit);
-                                        3
-                                    } else {
-                                        // println!("5 = 2, 3, or 5: {:?}", digit);
-                                        if fours.chars().all(|signal|digit.contains(&signal)) {
-                                            // println!("{:?} = 5", digit);
-                                            5
-                                        } else {
-                                            // println!("{:?} = 2", digit);
-                                            2
-                                        }
-                                        
+                        output
+                            .iter()
+                            .map(|digit| {
+                                // println!("wanting to find out what {:?} is", digit);
+                                match digit.len() {
+                                    2 => {
+                                        // println!("{:?} = 1", digit);
+                                        1
                                     }
-                                    
-                                }
-                                6 => {
-                                    if ones.chars().all(|signal|digit.contains(&signal)) {
-                                        // println!("6 = 0, 6, or 9: {:?}", digit);
-                                        if fours.chars().all(|signal|digit.contains(&signal)) {
-                                            // println!("{:?} = 9", digit);
-                                            9
-                                        } else {
-                                            // println!("{:?} = 0", digit);
-                                            0
-                                        }
-                                    } else {
-                                        // println!("{:?} = 6", digit);
-                                        6
+                                    3 => {
+                                        // println!("{:?} = 7", digit);
+                                        7
                                     }
-                                    
+                                    4 => {
+                                        // println!("{:?} = 4", digit);
+                                        4
+                                    }
+                                    5 => {
+                                        if ones.chars().all(|signal| digit.contains(&signal)) {
+                                            // println!("{:?} = 3", digit);
+                                            3
+                                        } else {
+                                            // println!("5 = 2, 3, or 5: {:?}", digit);
+                                            if fours.chars().all(|signal| digit.contains(&signal)) {
+                                                // println!("{:?} = 5", digit);
+                                                5
+                                            } else {
+                                                // println!("{:?} = 2", digit);
+                                                2
+                                            }
+                                        }
+                                    }
+                                    6 => {
+                                        if ones.chars().all(|signal| digit.contains(&signal)) {
+                                            // println!("6 = 0, 6, or 9: {:?}", digit);
+                                            if fours.chars().all(|signal| digit.contains(&signal)) {
+                                                // println!("{:?} = 9", digit);
+                                                9
+                                            } else {
+                                                // println!("{:?} = 0", digit);
+                                                0
+                                            }
+                                        } else {
+                                            // println!("{:?} = 6", digit);
+                                            6
+                                        }
+                                    }
+                                    7 => {
+                                        // println!("{:?} = 8", digit);
+                                        8
+                                    }
+                                    _ => {
+                                        println!("unexpected {}", digit.len());
+                                        panic!()
+                                    }
                                 }
-                                7 => {
-                                    // println!("{:?} = 8", digit);
-                                    8
-                                },
-                                _ => {println!("unexpected {}", digit.len()); panic!()},
-                            }
-                        }).rev().enumerate().fold(0, |a,(i,d)| {
-                            let place = 10i32.pow(i as u32);
-                            // println!("adding {} to the mix", d*place);
-                            a + d*place
-                            // unimplemented!()
-                        })
+                            })
+                            .rev()
+                            .enumerate()
+                            .fold(0, |a, (i, d)| {
+                                let place = 10i32.pow(i as u32);
+                                // println!("adding {} to the mix", d*place);
+                                a + d * place
+                                // unimplemented!()
+                            })
                     } else {
                         panic!("didn't have enough info A");
                     }
                 } else {
                     panic!("didn't have enough info B");
                 }
-                
             })
             // .inspect(|v|println!("summing: {}", v))
             .sum::<i32>();

@@ -1,5 +1,4 @@
 mod input;
-
 fn main() {
     println!("day 1");
     let input = input::day1::INPUT;
@@ -7,7 +6,6 @@ fn main() {
         .split('\n')
         .filter_map(|line| line.parse::<i32>().ok())
         .collect();
-
     {
         let increasing_count = soundings
             .iter()
@@ -16,7 +14,6 @@ fn main() {
             .count();
         println!("parta: {}", increasing_count);
     }
-
     {
         let smooth_soundings: Vec<i32> = soundings.windows(3).map(|t| t.iter().sum()).collect();
         let increasing_count = smooth_soundings

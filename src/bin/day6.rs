@@ -32,7 +32,7 @@ fn main() {
     }
 
     {
-        let mut buckets = (0u64,0,0,0,0,0,0,0,0);
+        let mut buckets = (0u64, 0, 0, 0, 0, 0, 0, 0, 0);
         for fish in starter_fish.iter() {
             match fish {
                 0 => buckets.0 += 1,
@@ -47,7 +47,7 @@ fn main() {
                 _ => panic!("unexpected input"),
             }
         }
-        (0..256).for_each(|_|{
+        (0..256).for_each(|_| {
             let zeros = buckets.0;
             buckets.0 = buckets.1;
             buckets.1 = buckets.2;
@@ -55,12 +55,19 @@ fn main() {
             buckets.3 = buckets.4;
             buckets.4 = buckets.5;
             buckets.5 = buckets.6;
-            buckets.6 = buckets.7;
+            buckets.6 = buckets.7 + zeros;
             buckets.7 = buckets.8;
             buckets.8 = zeros;
-            buckets.6 += zeros;
         });
-        let sum = buckets.0 + buckets.1 + buckets.2 +buckets.3 + buckets.4 + buckets.5 + buckets.6 + buckets.7 + buckets.8;
+        let sum = buckets.0
+            + buckets.1
+            + buckets.2
+            + buckets.3
+            + buckets.4
+            + buckets.5
+            + buckets.6
+            + buckets.7
+            + buckets.8;
         println!("partb: {}", sum);
     }
 }

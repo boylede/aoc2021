@@ -33,24 +33,23 @@ fn main() {
         .collect();
 
     {
-        let clouds: Vec<(i32, i32, i32, i32)> = clouds.clone()
+        let flat_clouds: Vec<(i32, i32, i32, i32)> = clouds
+            .clone()
             .into_iter()
             .filter(|(ax, ay, bx, by)| ax == bx || ay == by)
             .collect();
-        let map: HashMap<(i32, i32), i32> = clouds
+        let map: HashMap<(i32, i32), i32> = flat_clouds
             .iter()
             .flat_map(|point| collect_points(*point))
             .fold(HashMap::new(), |mut map, point| {
                 *map.entry(point).or_insert(0) += 1;
                 map
             });
-            // print_map(&map);
-        let overlapping_points = map.iter().filter(|(_k,v)|**v > 1).count();
+        let overlapping_points = map.iter().filter(|(_k, v)| **v > 1).count();
         println!("parta: {}", overlapping_points);
     }
 
     {
-        println!("found {} clouds", clouds.len());
         let map: HashMap<(i32, i32), i32> = clouds
             .iter()
             .flat_map(|line| collect_points(*line))
@@ -58,9 +57,8 @@ fn main() {
                 *map.entry(point).or_insert(0) += 1;
                 map
             });
-        // print_map(&map);
         let overlapping_points = map.iter().filter(|(_k, v)| **v > 1).count();
-
+        // print_map(&map);
         println!("partb: {}", overlapping_points);
     }
 }
@@ -69,45 +67,12 @@ fn collect_points(line: (i32, i32, i32, i32)) -> HashSet<(i32, i32)> {
     let (ax, ay, bx, by) = line;
     let width = bx - ax;
     let height = by - ay;
-    // let distance = ((width * width) + (height * height)).sqrt();
     let point_count = width.abs().max(height.abs());
-    let dx = if width != 0 {
-        if width > 0 {
-            1
-        } else {
-            -1
-        }
-    } else {
-        0
-    };
-    let dy = if height != 0 {
-        if height > 0 {
-            1
-        } else {
-            -1
-        }
-    } else {
-        0
-    };
+    let dx = width.signum();
+    let dy = height.signum();
 
-    if width.abs() != height.abs() && (ax != bx && ay != by) {
-        println!(
-            "encountered non 45-degree line ({},{}),({},{})",
-            ax, ay, bx, by
-        );
-        panic!("invalid input");
-    }
-    // if dx != 1.0 && dx != 0.0{
-    //     println!("dx: {}", dx);
-    // }
-    // if dy != 1.0 && dy != 0.0 {
-    //     println!("dy: {}", dy);
-    // }
     (0..=point_count)
-        // .map(|u| u as f32)
         .map(|i| (i * dx + ax, i * dy + ay))
-        // .map(|(fx, fy)| (fx as i32, fy as i32))
-        // .inspect(|p| println!("point: {:?}", p))
         .collect()
 }
 

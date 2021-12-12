@@ -26,26 +26,31 @@ fn main() {
                     (Vec::new(), None),
                     |(mut a, e): (Vec<char>, Option<char>), n| {
                         if e.is_some() {
+                            // short circuit the fold and stop as soon as we have an error
                             (a, e)
                         } else {
                             if let Some(last_open) = a.last() {
                                 // we are in a nested chunk
-
                                 if is_open(*n) {
+                                    // starting a new chunk always succeeds
                                     a.push(*n);
                                     (a, None)
                                 } else {
+                                    // if we are closing a chunk, check that we are closing the right one
                                     let next_expected_close = matching_close(*last_open);
                                     if *n == next_expected_close {
+                                        // bracket matches, remove the chunk from the ast
                                         a.pop();
                                         (a, None)
                                     } else {
+                                        // bracket didn't match, return it
                                         (a, Some(*n))
                                     }
                                 }
                             } else {
                                 // we are starting a new chunk
                                 if is_open(*n) {
+                                    // starting a new chunk always succeeds
                                     a.push(*n);
                                     (a, None)
                                 } else {
@@ -54,13 +59,8 @@ fn main() {
                                 }
                             }
                         }
-
-                        // let ee: Option<char> = None;
-                        // let aa: Vec<char> = Vec::new();
-                        // (aa, ee)
                     },
                 )
-                // unimplemented!()
             })
             .filter(|(_, e)| e.is_some())
             .map(|(_, e)| score_currupt(e.unwrap()))
@@ -103,23 +103,17 @@ fn main() {
                                 }
                             }
                         }
-
-                        // let ee: Option<char> = None;
-                        // let aa: Vec<char> = Vec::new();
-                        // (aa, ee)
                     },
                 )
-                // unimplemented!()
             })
             .filter(|(_, e)| e.is_none())
             .map(|(incomplete, _)| {
-                incomplete.iter().rev().map(|b|matching_close(*b)).fold(0, |score, next|{
-                    
-                    (score * 5) + score_incomplete(next)
-                })
-                
+                incomplete
+                    .iter()
+                    .rev()
+                    .map(|b| matching_close(*b))
+                    .fold(0, |score, next| (score * 5) + score_incomplete(next))
             })
-            // .map(|(_, e)| score(e.unwrap()))
             .collect();
         incomplete_lines_scores.sort();
         let middle = incomplete_lines_scores.len() / 2;

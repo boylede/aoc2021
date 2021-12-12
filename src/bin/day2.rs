@@ -17,7 +17,8 @@ fn main() {
                     _ => panic!(""),
                 }
             })
-            .fold((0, 0), |(x, y), (next_x, next_y)| (x + next_x, y + next_y));
+            .reduce(|(x, y), (next_x, next_y)| (x + next_x, y + next_y))
+            .unwrap();
 
         println!("parta: {}", x * y);
     }

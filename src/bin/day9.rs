@@ -94,12 +94,17 @@ fn main() {
                 let x = x as isize;
                 let y = y as isize;
                 let mut visit_queue = vec![(x - 1, y), (x, y - 1), (x + 1, y), (x, y + 1)];
-                let mut visited = vec![(x,y)];
+                let mut visited = vec![(x, y)];
 
                 while visit_queue.len() > 0 {
                     if let Some((nx, ny)) = visit_queue.pop() {
                         // println!("visiting {}x{} to see if it is in this basin", nx, ny);
-                        if nx >= 0 && ny >= 0 && nx < width && ny < height && !visited.contains(&(nx,ny)) {
+                        if nx >= 0
+                            && ny >= 0
+                            && nx < width
+                            && ny < height
+                            && !visited.contains(&(nx, ny))
+                        {
                             let nv = heightmap[ny as usize][nx as usize];
 
                             if nv != 9 {
@@ -114,13 +119,12 @@ fn main() {
                         } else {
                             // println!("either it is out of bounds or we've been there before");
                         }
-                        visited.push((nx,ny));
+                        visited.push((nx, ny));
                     }
                 }
                 // println!("found a basin with {} points", basin.len());
                 basin
             })
-            
             .map(|b| b.len())
             .collect();
         largest_basins.sort();
