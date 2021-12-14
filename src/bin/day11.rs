@@ -1,4 +1,4 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day11.txt");
 
 const TEST_INPUT: &str = "5483143223
 2745854711
@@ -19,8 +19,8 @@ const SMOL_TEST: &str = "11111
 
 fn main() {
     println!("day 11");
-    let input = input::day11::INPUT;
-    let octopi: Vec<Vec<_>> = input
+    
+    let octopi: Vec<Vec<_>> = INPUT
         .lines()
         .enumerate()
         .map(|(row, line)| {

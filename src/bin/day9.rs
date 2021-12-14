@@ -1,4 +1,4 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day9.txt");
 
 const TEST_INPUT: &str = "2199943210
 3987894921
@@ -8,8 +8,8 @@ const TEST_INPUT: &str = "2199943210
 
 fn main() {
     println!("day 9");
-    let input = input::day9::INPUT;
-    let heightmap: Vec<_> = input
+    
+    let heightmap: Vec<_> = INPUT
         .lines()
         .map(|line| {
             line.chars()

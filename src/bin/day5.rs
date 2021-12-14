@@ -1,6 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
-mod input;
+const INPUT: &str = include_str!("../../input/day5.txt");
+
 const TEST_INPUT: &str = "0,9 -> 5,9
 8,0 -> 0,8
 9,4 -> 3,4
@@ -17,8 +18,7 @@ const DIAGONAL_INPUTB: &str = "9,7 -> 7,9";
 
 fn main() {
     println!("day 5");
-    let input = input::day5::INPUT;
-    let clouds: Vec<(i32, i32, i32, i32)> = input
+    let clouds: Vec<(i32, i32, i32, i32)> = INPUT
         .lines()
         .map(|line| {
             let (a, b) = line.split_once(" -> ").unwrap();

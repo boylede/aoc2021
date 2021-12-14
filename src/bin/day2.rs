@@ -1,11 +1,9 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day2.txt");
 
 fn main() {
     println!("day 2");
-    let input = input::day2::INPUT;
-
     {
-        let (x, y) = input
+        let (x, y) = INPUT
             .lines()
             .map(|line| {
                 let (direction, amount) = line.split_once(' ').unwrap();
@@ -24,7 +22,7 @@ fn main() {
     }
 
     {
-        let (_, x, y) = input
+        let (_, x, y) = INPUT
             .lines()
             .map(|line| {
                 let (direction, amount) = line.split_once(' ').unwrap();

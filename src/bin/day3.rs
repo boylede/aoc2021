@@ -1,8 +1,7 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day3.txt");
 
 fn main() {
     println!("day 3");
-    let input = input::day3::INPUT;
     //     let input = "00100
     // 11110
     // 10110
@@ -17,8 +16,9 @@ fn main() {
     // 01010";
     // 749376
 
+    let bit_width = INPUT.lines().next().unwrap().len();
     {
-        let gamma = input
+        let gamma = INPUT
             .lines()
             .map(|s| -> Vec<(u32, u32)> {
                 s.chars()
@@ -54,7 +54,7 @@ fn main() {
         //     .lines()
 
         //     }).collect();
-        let mut diagnostics: Vec<Vec<u32>> = input
+        let diagnostics: Vec<Vec<u32>> = INPUT
             .lines()
             .map(|s| -> Vec<u32> {
                 s.chars()

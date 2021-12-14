@@ -5,7 +5,7 @@ use std::collections::{HashMap, HashSet};
 
 const CODE: &str = "HELLO WORLD";
 const FOLDS: usize = 12;
-const ALPHABET: &str = include_str!("input/alphabet.txt");
+const ALPHABET: &str = include_str!("../../input/alphabet.txt");
 
 const Y_AXIS: &str = "fold along y";
 const X_AXIS: &str = "fold along x";

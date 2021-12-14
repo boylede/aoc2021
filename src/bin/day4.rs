@@ -1,4 +1,4 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day4.txt");
 
 const WINNING_SEQUENCES: &[&[u32]] = &[
     &[
@@ -55,9 +55,8 @@ const TEST_INPUT: &str = "7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,1
 
 fn main() {
     println!("day 4");
-    let input = input::day4::INPUT;
     {
-        let mut lines = input.lines();
+        let mut lines = INPUT.lines();
         let win_sequence: Vec<u32> = lines
             .next()
             .unwrap()
@@ -144,7 +143,7 @@ fn main() {
     }
 
     {
-        let mut lines = input.lines();
+        let mut lines = INPUT.lines();
         let win_sequence: Vec<u32> = lines
             .next()
             .unwrap()

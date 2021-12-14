@@ -1,4 +1,4 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day10.txt");
 
 const TEST_INPUT: &str = "[({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
@@ -13,8 +13,8 @@ const TEST_INPUT: &str = "[({(<(())[]>[[{[]{<()<>>
 
 fn main() {
     println!("day 10");
-    let input = input::day10::INPUT;
-    let tokens: Vec<Vec<char>> = input
+    
+    let tokens: Vec<Vec<char>> = INPUT
         .lines()
         .map(|line| line.chars().collect::<Vec<_>>())
         .collect();

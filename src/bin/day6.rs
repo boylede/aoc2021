@@ -1,12 +1,11 @@
-mod input;
-
+const INPUT: &str = include_str!("../../input/day6.txt");
 const TEST_INPUT: &str = "3,4,3,1,2";
 
 fn main() {
     println!("day 6");
-    let input = input::day6::INPUT;
 
-    let starter_fish: Vec<u32> = input.split(',').map(|s| s.parse().unwrap()).collect();
+
+    let starter_fish: Vec<u32> = INPUT.split(',').map(|s| s.parse().unwrap()).collect();
     {
         let count = std::iter::repeat(())
             .scan(starter_fish.clone(), |state, _| {

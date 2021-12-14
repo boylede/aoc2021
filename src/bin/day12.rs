@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-mod input;
+const INPUT: &str = include_str!("../../input/day12.txt");
 
 const START: &str = "start";
 const END: &str = "end";
@@ -45,8 +45,8 @@ start-RW";
 
 fn main() {
     println!("day 12");
-    let input = input::day12::INPUT;
-    let edges: Vec<(&str, &str)> = input
+    
+    let edges: Vec<(&str, &str)> = INPUT
         .lines()
         .map(|line| line.split_once('-').unwrap())
         .collect();

@@ -1,5 +1,5 @@
 use std::collections::{HashMap, HashSet};
-mod input;
+const INPUT: &str = include_str!("../../input/day8.txt");
 
 const TEST_INPUT: &str =
     "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf";
@@ -16,8 +16,8 @@ egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb
 gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce";
 fn main() {
     println!("day 8");
-    let input = input::day8::INPUT;
-    let signals = input
+    
+    let signals = INPUT
         .lines()
         .map(|line| line.split_once('|').unwrap())
         // .filter_map(|o|o)

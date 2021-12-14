@@ -1,12 +1,12 @@
 use std::collections::HashMap;
-mod input;
+const INPUT: &str = include_str!("../../input/day7.txt");
 
 const TEST_INPUT: &str = "16,1,2,0,4,2,7,1,2,14";
 
 fn main() {
     println!("day 7");
-    let input = input::day7::INPUT;
-    let crabs: Vec<i32> = input
+
+    let crabs: Vec<i32> = INPUT
         .split(',')
         .map(|n| n.parse::<i32>().unwrap())
         .collect();

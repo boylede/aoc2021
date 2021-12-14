@@ -1,8 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
-mod input;
+const INPUT: &str = include_str!("../../input/day13.txt");
 
-const ALPHABET: &str = include_str!("input/alphabet.txt");
+const ALPHABET: &str = include_str!("../../input/alphabet.txt");
 
 const TEST_INPUT: &str = "6,10
 0,14
@@ -31,8 +31,7 @@ const X_AXIS: &str = "fold along x";
 
 fn main() {
     println!("day 13");
-    let input = input::day13::INPUT;
-    let (dots, instructions) = input.split_once("\n\n").unwrap();
+    let (dots, instructions) = INPUT.split_once("\n\n").unwrap();
     let dots: Vec<(i32, i32)> = dots
         .lines()
         .map(|s| s.split_once(',').unwrap())
@@ -88,6 +87,7 @@ fn main() {
     }
     {
         let dot_set: HashSet<(i32, i32)> = dots.iter().copied().collect();
+        // print_image(&dot_set);
         let code_image = instructions.iter().fold(
             dot_set,
             |dots: HashSet<(i32, i32)>, (axis, value): &(&str, i32)| -> HashSet<(i32, i32)> {
@@ -114,6 +114,7 @@ fn main() {
                         }
                     })
                     .collect();
+                // print_image(&new_dots);
                 new_dots
             },
         );
@@ -144,14 +145,12 @@ fn print_image(dots: &HashSet<(i32, i32)>) {
 
 fn faux_ocr(dots: &HashSet<(i32, i32)>) -> String {
     let digits: Vec<Vec<(i32, i32)>> = {
-        // let mut buffer = [[[false; 4]; 6]; 8];
         let mut digits = HashMap::new();
         for (x, y) in dots.iter() {
             let digit = x / 5; //todo: digits not 4 wide will cause issues
             let row = *y;
             let col = x % 5;
             digits.entry(digit).or_insert(Vec::new()).push((col, row));
-            // buffer[digit][col][row] = true;
         }
         let places = digits.keys().max().cloned().unwrap();
         let mut buffer = Vec::new();
@@ -188,12 +187,5 @@ fn faux_ocr(dots: &HashSet<(i32, i32)>) -> String {
             }
         })
         .collect();
-
-    // let mut s = String::with_capacity(digits.len());
-    let s: String = digits.iter().map(|d| alphabet.get(d).unwrap()).collect();
-    // for letter in digits.iter() {
-    //     unimplemented!()
-    // }
-    // s
-    s
+    digits.iter().map(|d| alphabet.get(d).unwrap()).collect()
 }

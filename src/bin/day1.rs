@@ -1,8 +1,8 @@
-mod input;
+const INPUT: &str = include_str!("../../input/day1.txt");
 fn main() {
     println!("day 1");
-    let input = input::day1::INPUT;
-    let soundings: Vec<i32> = input
+    
+    let soundings: Vec<i32> = INPUT
         .split('\n')
         .filter_map(|line| line.parse::<i32>().ok())
         .collect();
