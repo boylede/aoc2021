@@ -1,4 +1,4 @@
-pub const INPUT: &str = "he-JK
+he-JK
 wy-KY
 pc-XC
 vt-wy
@@ -21,4 +21,3 @@ start-at
 start-XC
 at-LJ
 vt-JK
-";

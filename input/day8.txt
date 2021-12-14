@@ -1,5 +1,4 @@
-pub const INPUT: &str =
-    "afebd ecdgfb gacfed dgaeb bf acefd fgdabec bfd bedcaf bafc | afcbed fb bfd bdf
+afebd ecdgfb gacfed dgaeb bf acefd fgdabec bfd bedcaf bafc | afcbed fb bfd bdf
 eabcdg fc fbce dbfagc cagbdfe cbdge fgc gfade ecdgfb gfedc | cf fgbacd fecb becdg
 fbeadcg fdcge deb gcdeaf fdgb bd bedacg cedbf feabc fcgdeb | dbcfeg cbeagd ebd db
 adgcbe bgaef cab gbfadec deacg bdcg cfegad gbcea fbeadc cb | bgcd gdcb acb gabced
@@ -198,4 +197,4 @@ adfbge faed abf fbagd gdbfeac dcbfg fecgab ebgacd baegd af | fdabg fdae fdae afc
 ecdab eg dacbfg dcebg begf dbegcf dge bdcgf cedafg bdcaefg | efgcabd deg dgbce ged
 ga dafcb fcagb cfdebga gaf fcdagb fcbeg cgad cdfeab dbfgea | fbecdga ag dcga dcafb
 eafgbd afcbeg cdfabge acdbf gfbec cgbefd edf de dceg decfb | def ecdg abfgde de
-ea fdabg fbdcgea cebfda fcbgde abgdec dae ebdfa eacf bcedf | acfe afce bgfda ade";
+ea fdabg fbdcgea cebfda fcbgde abgdec dae ebdfa eacf bcedf | acfe afce bgfda ade

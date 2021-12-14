@@ -1,4 +1,4 @@
-pub const INPUT: &str = "141
+141
 152
 164
 163
@@ -1998,4 +1998,3 @@ pub const INPUT: &str = "141
 2660
 2671
 2682
-";

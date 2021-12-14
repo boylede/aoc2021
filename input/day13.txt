@@ -1,4 +1,4 @@
-pub const INPUT: &str = "1148,688
+1148,688
 1020,159
 857,707
 1176,415
@@ -933,4 +933,4 @@ fold along y=55
 fold along x=40
 fold along y=27
 fold along y=13
-fold along y=6";
+fold along y=6
