@@ -203,7 +203,7 @@ impl BitIter {
         }
         self.current.pop()
     }
-    fn take_u32(&mut self, count: usize) -> Option<u32> {
+    fn take_int(&mut self, count: usize) -> Option<u64> {
         // println!("taking {} bits", count);
         let mut buf = Vec::with_capacity(count);
         for _ in 0..count {
@@ -215,12 +215,12 @@ impl BitIter {
             .iter()
             .rev()
             .enumerate()
-            .fold(0, |whole, (i, &bit)| whole | (bit as u32) << i);
+            .fold(0, |whole, (i, &bit)| whole | (bit as u64) << i);
         // println!("got number {} out of {} bits: {:?}", num, count, buf);
         Some(num)
     }
-    fn take_varint(&mut self) -> Option<u32> {
-        let mut last = self.take_u32(5)?;
+    fn take_varint(&mut self) -> Option<u64> {
+        let mut last = self.take_int(5)?;
         let mut integer = 0;
 
         while (last >> 4) & 0b1 == 1 {
@@ -230,7 +230,7 @@ impl BitIter {
 
             integer |= last;
 
-            last = self.take_u32(5).unwrap();
+            last = self.take_int(5).unwrap();
         }
 
         integer = integer << 4;
@@ -266,8 +266,8 @@ impl BitIter {
         Some(packets)
     }
     fn take_packet(&mut self) -> Option<Packet> {
-        let version = self.take_u32(3)?;
-        let kind = self.take_u32(3)?;
+        let version = self.take_int(3)? as u32;
+        let kind = self.take_int(3)? as u32;
         // println!("taking packet with version {} and kind {}", version, kind);
         let inner = if kind == 4 {
             let number = self.take_varint()?;
@@ -275,14 +275,14 @@ impl BitIter {
         } else {
             let encoding = self.next()?;
             if encoding == 0 {
-                let length = self.take_u32(15)?;
+                let length = self.take_int(15)?;
                 // println!("looking for all packets in {} bits", length);
-                let mut child = self.take_nested(length)?;
+                let mut child = self.take_nested(length as u32)?;
                 let packets = child.take_packets()?;
                 // println!("found {} packets", packets.len());
-                PacketInner::Parent(encoding, length, packets)
+                PacketInner::Parent(encoding, length as u32, packets)
             } else {
-                let count = self.take_u32(11)?;
+                let count = self.take_int(11)? as u32;
                 // println!("looking for {} packets", count);
                 let packets: Vec<Packet> =
                     (0..count).map(|_| self.take_packet().unwrap()).collect();
@@ -489,6 +489,6 @@ impl Packet {
 
 #[derive(Debug, Clone)]
 enum PacketInner {
-    Literal(u32),
+    Literal(u64),
     Parent(u8, u32, Vec<Packet>),
 }
