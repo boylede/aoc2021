@@ -52,14 +52,6 @@ fn main() {
                 .parse()
                 .unwrap()
         })
-        // .inspect(|number| {
-        // println!("{}", number);
-        // println!("which had {} numbers", number.count_numbers(0));
-        // })
-        // .map(|ps| match ps {
-        //     ParseState::Final(r) => r,
-        //     _ => panic!("failed to complete parse"),
-        // })
         .map(|mut n| {
             n.reduce();
             n
@@ -77,7 +69,6 @@ fn main() {
             })
             .unwrap();
         sum.reduce();
-        // println!("sum: {}", sum);
         let magnitude = sum.magnitude();
         println!("parta: {}", magnitude);
     }
@@ -88,7 +79,7 @@ fn main() {
             .flat_map(|(i, number)| {
                 std::iter::repeat(number)
                     .zip(numbers.iter().enumerate().filter(move |(j, _n)| *j != i))
-                    .map(|(a, (j,b))| (a,b))
+                    .map(|(a, (j, b))| (a, b))
             })
             .map(|(a, b)| {
                 let mut new = Element::Pair(Box::new(a.clone()), Box::new(b.clone()));
@@ -106,7 +97,6 @@ enum ParseState {
     Empty(String),
     First(String),
     Second(Element, String),
-    Full(Element, Element, String),
     Closed(Element, String),
 }
 
@@ -195,15 +185,6 @@ impl ParseState {
                     panic!("unexpected input: {}", next);
                 }
             }
-            Full(a, b, mut rest) => {
-                // expect close paren and end of stream
-                let next = rest.pop().unwrap();
-                if next == ']' {
-                } else {
-                    panic!("unexpected input");
-                }
-                unimplemented!()
-            }
             s @ Closed(_, _) => s,
         }
 
@@ -226,10 +207,7 @@ impl Element {
         }
     }
     fn reduce(&mut self) {
-        while self.reduce_inner() {
-            println!("reduced to: {}", self);
-        }
-        println!("finished reduce.");
+        while self.reduce_inner() {}
     }
     fn reduce_inner(&mut self) -> bool {
         use Element::*;
@@ -237,17 +215,12 @@ impl Element {
             let f = e.clone();
             *e = Element::Number(0);
             match f {
-                Number(_) => {
-                    println!("unexpected nest: {}", f);
-                    false
-                }
+                Number(_) => false,
                 Pair(a, b) => {
-                    println!("found a deeply nested pair at index {}: ({},{})", i, a, b);
                     if i > 0 {
-                        println!("adding {} to index {}", a, i - 1);
                         self.add(i - 1, a.unwrap_number());
                     }
-                    println!("adding {} to index {}", b, i + 1);
+
                     self.add(i + 1, b.unwrap_number());
                     true
                 }
@@ -272,20 +245,6 @@ impl Element {
         } else {
             false
         }
-    }
-    // fn leftmost_pair(&mut self) -> &mut Element {
-    //     unimplemented!()
-    // }
-    fn count_numbers(&self, mut index: usize) -> usize {
-        use Element::*;
-        match self {
-            Number(_) => index += 1,
-            Pair(a, b) => {
-                index = a.count_numbers(index);
-                index = b.count_numbers(index);
-            }
-        }
-        index
     }
     fn unwrap_number(&self) -> i64 {
         use Element::*;
